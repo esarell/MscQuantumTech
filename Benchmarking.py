@@ -37,7 +37,8 @@ def data_load_and_process1(dataset):
     '''
     #split dataset into 80% training / 20%test after randomly shuffling
     #need to randomly shuffle as first half of dataset is just noise and second is noisy sin waves
-    
+
+    #QE CHANGE THIS TO HAVE THREE DATA SETS, test train and validate
     x_train, x_test, y_train, y_test = train_test_split(dataset[0], dataset[1], test_size=0.8, random_state=0, shuffle=True)    
     
     return (x_train, x_test, y_train, y_test)
@@ -50,7 +51,7 @@ def data_embedding(X): #encode input X with 8 qubits with amplitude encoding
     '''
     AmplitudeEmbedding(X, wires=range(8), normalize=True)
 
-
+#Double check this is correct
 def accuracy_test(predictions, labels, binary = True):
     '''
     This functions calculates the accuracy of the preedicitons
@@ -58,6 +59,7 @@ def accuracy_test(predictions, labels, binary = True):
           labels - Y_test/Y_train datta
           binary True/Flase (not used)
     '''
+    #QE add meaningful varaible names
     acc = 0
     for l,p in zip(labels, predictions):
         if p[0] > p[1]: 
@@ -76,7 +78,7 @@ def Benchmarking(dataset, Unitaries, U_num_params, filename, circuit, steps, snr
     '''
     This function benchmarks the QCNN
     '''
-
+    print('Unitaries',Unitaries)
     I = len(Unitaries) # Number of Quantum circuits try
 
     for i in range(I):
@@ -87,15 +89,20 @@ def Benchmarking(dataset, Unitaries, U_num_params, filename, circuit, steps, snr
         Embedding='Amplitude'
 
             #get data
+        #calls function in this file
         X_train, X_test, Y_train, Y_test = data_load_and_process(dataset)
+        #look at difference between the two functions
 
         #Xn_train, Xn_test, Yn_train, Yn_test = data_load_and_process1(sin_generator.sin_gen3(snr,256))
 
         print("\n")
         lend=str(len(dataset[0]))
+        #QE Here add in a laoding bar look at obsiden for notes
         print("Loss History for " + circuit + " circuits, " + U + " Amplitude with " +'cross entropy' + ' trained with: ' + lend + ' with snr: ' +str(snr))
+        #calls the training function, work out where are the hyper parameters
         loss_history, trained_params = Training.circuit_training(X_train, Y_train, U, U_params, steps)
 
+        #pltos the graph that is outputted QCNN loss.png
         plt.plot(loss_history, label=U)
         plt.xlabel('Epochs')
         plt.ylabel('Training Loss')
@@ -105,10 +112,12 @@ def Benchmarking(dataset, Unitaries, U_num_params, filename, circuit, steps, snr
             #makes predictions of test set with trained parameters
         predictions = [QCNN_circuit.QCNN(x, trained_params, U, U_params) for x in X_test]
             
-            #calculate accuray
+        #calculate accuray
+        #QE add in more tests like percisions ect
         accuracy = accuracy_test(predictions, Y_test, binary)
         print("Accuracy for " + U + " Amplitude :" + str(accuracy))
 
+        #Writes file
         f.write("Loss History for " + circuit + " circuits, " + U + " Amplitude with " +'cross entropy' + ' trained with: ' + lend + ' with snr: ' +str(snr))
         f.write("\n")
         f.write(str(loss_history))

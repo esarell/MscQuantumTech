@@ -12,103 +12,91 @@ circuit: 'QCNN'
 cost_fn: 'cross_entropy'
 Note: when using 'mse' as cost_fn binary="True" is recommended, when using 'cross_entropy' as cost_fn must be binary="False".
 """
+#Declaring constants
 
-#Unitaries = ['U_13', 'U_14', 'U_15', 'U_SO4']
+if __name__ == "__main__":
+    #Unitaries = ['U_13', 'U_14', 'U_15', 'U_SO4']
+    Unitaries=['U_6']#, 'U_9', 'U_13', 'U_14', 'U_15', 'U_SO4', 'U_SU4', 'U_SU4_no_pooling', 'U_SU4_1D', 'U_9_1D']
+    #U_num_params = [6, 6, 4, 6]
 
-Unitaries=['U_6']#, 'U_9', 'U_13', 'U_14', 'U_15', 'U_SO4', 'U_SU4', 'U_SU4_no_pooling', 'U_SU4_1D', 'U_9_1D']
-#U_num_params = [6, 6, 4, 6]
+    U_num_params = [10]#, 10, 2, 6, 6, 4, 6, 15, 15, 15, 2]
+    #dataset = sin_generator.sin_gen(10,10000)
 
-U_num_params = [10]#, 10, 2, 6, 6, 4, 6, 15, 15, 15, 2]
-#dataset = sin_generator.sin_gen(10,10000)
+    binary = False
+    #cost_fn = 'cross_entropy'
+    #freqs = [0,0.1,0.2,0.3,0.4,0.5,0.6,0.7,0.8,0.9,1]
+    #freqs = [1,3,5,7,9,11]
+    #filename='Reg Results'
+    #Runs the Benchmarking function
 
-binary = False
-#cost_fn = 'cross_entropy'
-#freqs = [0,0.1,0.2,0.3,0.4,0.5,0.6,0.7,0.8,0.9,1]
-#freqs = [1,3,5,7,9,11]
-#filename='Reg Results'
-#Runs the Benchmarking function
+    filename='result'
 
-filename='/Quantum_Results/Quantum Results U_6 new new new'
+    fname =r'qdata_1009.txt'
+    with open(fname) as f:
+        lines = f.readlines()
+        filedata=''.join(lines)
+        #data handeling
+        allstates=filedata.split(')], ')
+        #print(len(allstates))
+        
+        #data handeling of the labels which are at the end of the file
+        labels=allstates[1]
+        labels=labels[:-1]
+        labels=labels.strip(']')
+        labels=labels.strip('[')
+        labels=labels.split(',')
+        labels=[eval(i) for i in labels]
+        #are these labels literally like true/false
+        #print(labels)
+        #print(filedata[len(labels):])
+        #filedata= filedata[:len(labels)]
+        #filedata = filedata.replace('[array(','')
 
-fname =r'C:\Users\ivoll\OneDrive\Documents\qml_sin-3 copy\Quantum_data\qdata_10000_0.1.txt'
-with open(fname) as f:
-    lines = f.readlines()
-    all=''.join(lines)
-    allstates=all.split(')], ')
-    #print(len(allstates))
-    labels=allstates[1]
-    labels=labels[:-1]
-    labels=labels.strip(']')
-    labels=labels.strip('[')
-    labels=labels.split(',')
-    labels=[eval(i) for i in labels]
-    #print(labels)
-    #print(all[len(labels):])
-    #all= all[:len(labels)]
-    #all = all.replace('[array(','')
-    all = all.split('),')
-    #print(all)
-    print(len(all))
-    jj=0
-    all_new=[]
-    for item in all:
-    #    print(item)
-        item = item.replace('[array(','')
-        item = item.replace('rray([','')
-        item=item[2:-1]
-        #print(item)
-        item=item.replace('\n       ','')
-        item=item.replace('  ','')
-        item=item.replace(' ','')
-        item=item.split(',')
-        #print(item)
-        #print(len(item))
-        #print(jj,len(item))
+        #get sin data?
+        filedata = filedata.split('),')
+        #print(filedata)
+        print(len(filedata))
+        counter1=0
+        filedata_new=[]
+        for data in filedata:
+            #print(data)
+            data = data.replace('rray([','')
+            data=data[2:-1]
+            data=data.replace('\n       ','')
+            data=data.replace('  ','')
+            data=data.replace(' ','')
+            data=data.split(',')
+            print("data length",len(data))
 
-        if jj == 9999:
-            
-            item=';'.join(item)
-            #print(item)
-            item=item.split(')')
-            item=item[0]
-            item=item[:-1]
-            #print(item)
-            item=item.split(';')
-            print('testsdvhfsuyds',len(item))
-        if len(item) == 256:
-            gg=[]
-            for i in item:
-                #try:
-                h=np.complex128(i)
-                gg.append(h)
-                #gg= np.append(gg,h)
-                #except:
-                #print(i)
-                #print(i)
-            
-        #    break
-            jj=jj+1
-        #break
-        gg=np.array(gg,dtype=complex)
-        #print(type(gg))
-        all_new.append(gg)
-print(len(all_new))
-print(type(all_new[0]),labels[0])
-#output=[all_new,labels]
-#print(output)
-print('jj:',jj)
+            if counter1 == 9999:  
+                data=';'.join(data)
+                data=data.split(')')
+                data=data[0]
+                data=data[:-1]
+                data=data.split(';')
+                print('new data length',len(data))
+            #length of the file
+            if len(data) == 256:
+                complexData=[]
+                for i in data:
+                    h=np.complex128(i)
+                    complexData.append(h)
+                counter1=counter1+1
+            complexData=np.array(complexData,dtype=complex)
+            filedata_new.append(complexData)
 
-    #for line in lines:
-    #    print(line)
-dataset=[all_new,labels]
-#print(len(dataset))
+    print(len(filedata_new))
+    print(type(filedata_new[0]),labels[0])
+    print('counter1:',counter1)
+    dataset=[filedata_new,labels]
 
-freqs=[0.1]
-print('data read')
-for p in freqs:
-    #dataset = Quantum_Data.quantum_data(p)
-    #dataset = Quantum_Data.sin_gen(p, 10000)
-    Benchmarking.Benchmarking(dataset, Unitaries, U_num_params, filename, circuit='QCNN', steps = 500, snr=p, binary=binary)
+    freqs=[0.1]
+    print('data read')
+    for p in freqs:
+        #dataset = Quantum_Data.quantum_data(p)
+        #dataset = Quantum_Data.sin_gen(p, 10000)
+        print("HERE")
+        Benchmarking.Benchmarking(dataset, Unitaries, U_num_params, filename, circuit='QCNN', steps = 500, snr=p, binary=binary)
 
 
-    #train pnoise network with gnoise
+        #train pnoise network with gnoise

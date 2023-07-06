@@ -36,13 +36,16 @@ def cost(params, X, Y, U, U_params):
           U_params - unitary cirucit tunable parameters
     RETURNS: Total loss 
     '''
+    print("params",params)
     predictions = [QCNN_circuit.QCNN(x, params, U, U_params) for x in X]
     loss = cross_entropy(Y, predictions)
     return loss
 
+#QE LOOK AT HYPER PARAMETERS
 # Circuit training parameters
 learning_rate = 0.01
 batch_size = 25
+epochs = 10
 def circuit_training(X_train, Y_train, U, U_params, steps):
     '''
     trains qcnn on training data
@@ -52,12 +55,14 @@ def circuit_training(X_train, Y_train, U, U_params, steps):
           U_params- tunable parameters of qcnn to be learned
     RETURNS: loss history and learned parameters
     '''
+    #Different variants
     if U == 'U_SU4_no_pooling' or U == 'U_SU4_1D' or U == 'U_9_1D':
         total_params = U_params * 3
     else:
         total_params = U_params * 3 + 2 * 3
 
     params = np.random.randn(total_params, requires_grad=True)  #randomly initialises circuit parameters
+    #QE look into penny lane what does this do
     opt = qml.NesterovMomentumOptimizer(stepsize=learning_rate)  #defines optimizer
     loss_history = []
     print(total_params)
@@ -68,9 +73,11 @@ def circuit_training(X_train, Y_train, U, U_params, steps):
         batch_index = np.random.randint(0, len(X_train), (batch_size,))
         X_batch = [X_train[i] for i in batch_index]
         Y_batch = [Y_train[i] for i in batch_index]
+        #here cost function is called which then calls the quantum cicuit
         params, cost_new = opt.step_and_cost(lambda v: cost(v, X_batch, Y_batch, U, U_params),
                                                      params)
         loss_history.append(cost_new)
+        #QE Okay here we need a bar
         if it % 10 == 0:
             print("iteration: ", it, " cost: ", cost_new)
 
