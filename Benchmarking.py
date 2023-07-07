@@ -4,6 +4,7 @@ import QCNN_circuit
 import numpy as np
 import pennylane as qml
 from pennylane.templates.embeddings import AmplitudeEmbedding
+#pip3 install scikit-learn
 from sklearn.model_selection import train_test_split
 import matplotlib.pyplot as plt
 import time
@@ -78,6 +79,7 @@ def Benchmarking(dataset, Unitaries, U_num_params, filename, circuit, steps, snr
     '''
     This function benchmarks the QCNN
     '''
+    #Make this actually epochs
     print('Unitaries',Unitaries)
     I = len(Unitaries) # Number of Quantum circuits try
 
@@ -100,8 +102,10 @@ def Benchmarking(dataset, Unitaries, U_num_params, filename, circuit, steps, snr
         #QE Here add in a laoding bar look at obsiden for notes
         print("Loss History for " + circuit + " circuits, " + U + " Amplitude with " +'cross entropy' + ' trained with: ' + lend + ' with snr: ' +str(snr))
         #calls the training function, work out where are the hyper parameters
+        #Save the Paramaters
+        #if its just parameters dont even really need to pickel
         loss_history, trained_params = Training.circuit_training(X_train, Y_train, U, U_params, steps)
-
+        print("trained parameters",trained_params)
         #pltos the graph that is outputted QCNN loss.png
         plt.plot(loss_history, label=U)
         plt.xlabel('Epochs')
@@ -134,7 +138,7 @@ def Benchmarking_new(dataset, Unitaries, U_num_params, filename, circuit, steps,
     '''
     This function benchmarks the QCNN
     '''
-
+    #Is this where its deciding epochs
     I = len(Unitaries) # Number of Quantum circuits try
 
     for i in range(I):

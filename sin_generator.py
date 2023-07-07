@@ -2,7 +2,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 np.random.seed(2664)
 import random
-from sklearn.preprocessing import normalize
+#from sklearn.preprocessing import normalize
 
 def sin_gen(snr, length): #input snr as power ratio
     data_length = 256

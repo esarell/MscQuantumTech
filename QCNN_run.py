@@ -60,13 +60,14 @@ if __name__ == "__main__":
         filedata_new=[]
         for data in filedata:
             #print(data)
+            data = data.replace('[array(','')
             data = data.replace('rray([','')
             data=data[2:-1]
             data=data.replace('\n       ','')
             data=data.replace('  ','')
             data=data.replace(' ','')
             data=data.split(',')
-            print("data length",len(data))
+            #print("data length",len(data))
 
             if counter1 == 9999:  
                 data=';'.join(data)
@@ -74,7 +75,7 @@ if __name__ == "__main__":
                 data=data[0]
                 data=data[:-1]
                 data=data.split(';')
-                print('new data length',len(data))
+                #print('new data length',len(data))
             #length of the file
             if len(data) == 256:
                 complexData=[]
