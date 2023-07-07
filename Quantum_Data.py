@@ -2,13 +2,13 @@ import numpy as np
 import matplotlib.pyplot as plt
 np.random.seed(2664)
 import random
-#from sklearn.preprocessing import normalize
+from sklearn.preprocessing import normalize
 
 from qiskit import QuantumCircuit, QuantumRegister, ClassicalRegister, execute, Aer, IBMQ
 from qiskit.quantum_info import Pauli
 from qiskit.tools.visualization import circuit_drawer
 import itertools as it
-#import numpy as np
+import numpy as np
 import matplotlib.pyplot as plt
 import matplotlib
 

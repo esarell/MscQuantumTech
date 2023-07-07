@@ -2,7 +2,7 @@ import Benchmarking
 import sin_generator
 import Quantum_Data
 import numpy as np
-
+import datetime
 """
 Here are possible combinations of benchmarking user could try.
 Unitaries: ['U_TTN', 'U_5', 'U_6', 'U_9', 'U_13', 'U_14', 'U_15', 'U_SO4', 'U_SU4', 'U_SU4_no_pooling', 'U_SU4_1D', 'U_9_1D']
@@ -28,8 +28,8 @@ if __name__ == "__main__":
     #freqs = [1,3,5,7,9,11]
     #filename='Reg Results'
     #Runs the Benchmarking function
-
-    filename='result'
+    #
+    filename="Result"+str(datetime.datetime.now().date()) + '_' + str(datetime.datetime.now().time()).replace(':', '.')
 
     fname =r'qdata_1009.txt'
     with open(fname) as f:
@@ -97,6 +97,7 @@ if __name__ == "__main__":
         #dataset = Quantum_Data.quantum_data(p)
         #dataset = Quantum_Data.sin_gen(p, 10000)
         print("HERE")
+        #Step hyper parameters set up here
         Benchmarking.Benchmarking(dataset, Unitaries, U_num_params, filename, circuit='QCNN', steps = 500, snr=p, binary=binary)
 
 

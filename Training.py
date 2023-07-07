@@ -36,7 +36,7 @@ def cost(params, X, Y, U, U_params):
           U_params - unitary cirucit tunable parameters
     RETURNS: Total loss 
     '''
-    print("params",params)
+    #print("params",params)
     predictions = [QCNN_circuit.QCNN(x, params, U, U_params) for x in X]
     loss = cross_entropy(Y, predictions)
     return loss
