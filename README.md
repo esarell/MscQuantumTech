@@ -24,10 +24,15 @@ The data is stored in the file:
 
 -----------------------------------------------------------------------------------------------------------------------------------------
 Hyperparameters are stored:
-
+Training.py
 
 -----------------------------------------------------------------------------------------------------------------------------------------
 How to run.
 
 Run the QCNN_run.py file
 Adjust the filename ect to make it work for you?
+
+Set up make sure you have two folders set up,
+Models and Results to collect the information
+
+Models are pickeld versions of the paramaters at that point, file naming convention works by using model + step number + C + Cost + .pkl
