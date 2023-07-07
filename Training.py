@@ -6,6 +6,9 @@ from pennylane import numpy as np
 import autograd.numpy as anp
 from pennylane.templates.embeddings import AmplitudeEmbedding
 import pickle
+import datetime
+import os
+from tqdm import tqdm
 # This is an implementation of data_embedding function used for 8 qubits Quantum Convolutional Neural Network (QCNN)
 # and Hierarchical Quantum Classifier circuit.
 
@@ -56,6 +59,7 @@ def circuit_training(X_train, Y_train, U, U_params, steps):
     RETURNS: loss history and learned parameters
     '''
     #Different variants
+    
     if U == 'U_SU4_no_pooling' or U == 'U_SU4_1D' or U == 'U_9_1D':
         total_params = U_params * 3
     else:
@@ -66,11 +70,18 @@ def circuit_training(X_train, Y_train, U, U_params, steps):
     opt = qml.NesterovMomentumOptimizer(stepsize=learning_rate)  #defines optimizer
     loss_history = []
     #print(total_params)
+    try:
+        path = "Models/"+str(datetime.datetime.now().date())
+        os.mkdir(path)
+    except:
+        print("File "+path+"already created")
+    pbar = tqdm(total=100)
     for it in range(steps):
         '''
         calculate loss for each epoch- traing set split into
         '''
-        print("steps",it)
+        #
+        # print("steps",it)
         batch_index = np.random.randint(0, len(X_train), (batch_size,))
         X_batch = [X_train[i] for i in batch_index]
         Y_batch = [Y_train[i] for i in batch_index]
@@ -81,9 +92,10 @@ def circuit_training(X_train, Y_train, U, U_params, steps):
         #QE Okay here we need a bar
         if it % 10 == 0:
             print("iteration: ", it, " cost: ", cost_new)
-            currentfile = "Models\model"+str(it)+"C"+str(cost_new)+".pkl"
+            currentfile = path+"\model"+str(it)+"C"+str(cost_new)+".pkl"
             print("Saving current parameters:",currentfile)
             pickle.dump(params, open(currentfile,'wb'))
+        pbar.update(int(100/steps))
         #Pickel here!
         #QE not represor
     

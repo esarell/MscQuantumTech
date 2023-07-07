@@ -98,7 +98,7 @@ if __name__ == "__main__":
         #dataset = Quantum_Data.sin_gen(p, 10000)
         print("HERE")
         #Step hyper parameters set up here
-        Benchmarking.Benchmarking(dataset, Unitaries, U_num_params, filename, circuit='QCNN', steps = 500, snr=p, binary=binary)
+        Benchmarking.Benchmarking(dataset, Unitaries, U_num_params, filename, circuit='QCNN', steps = 50, snr=p, binary=binary)
 
 
         #train pnoise network with gnoise
