@@ -17,6 +17,8 @@ Quantum_Data.py
 sin_generator.py
 
 Training.py
+
+QCNN_test.py: allow you to run previsously trained models and test them
 -----------------------------------------------------------------------------------------------------------------------------------------
 
 The data is stored in the file:
@@ -33,6 +35,10 @@ Run the QCNN_run.py file
 Adjust the filename ect to make it work for you?
 
 Set up make sure you have two folders set up,
-Models and Results to collect the information
+Models, Results and Data to collect the information
+
+Models: Holds files for the parameters
+Results: Holds the cost function/loss output
+Data: Holds the specific split up of test and training set data so you can test without testing on seen data
 
 Models are pickeld versions of the paramaters at that point, file naming convention works by using model + step number + C + Cost + .pkl
