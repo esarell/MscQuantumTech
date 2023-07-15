@@ -46,10 +46,10 @@ def cost(params, X, Y, U, U_params):
 
 #QE LOOK AT HYPER PARAMETERS
 # Circuit training parameters
-learning_rate = 0.01
-batch_size = 25
-epochs = 10
-def circuit_training(X_train, Y_train, U, U_params, steps):
+learning_rate = 0.0001
+batch_size = 64
+epochs = 51
+def circuit_training(X_train,X_val, Y_train,Y_val, U, U_params, steps):
     '''
     trains qcnn on training data
     ARGS: X_train- training data
@@ -95,6 +95,9 @@ def circuit_training(X_train, Y_train, U, U_params, steps):
             currentfile = path+"\model"+str(it)+"C"+str(cost_new)+".pkl"
             print("Saving current parameters:",currentfile)
             pickle.dump(params, open(currentfile,'wb'))
+            predictions = [QCNN_circuit.QCNN(x,params, U, U_params) for x in X_val]
+            accuracy = Benchmarking.accuracy_test(predictions, Y_val, True)
+            print("Accuracy for " + U + " Amplitude :" + str(accuracy))
         pbar.update(int(100/steps))
         #Pickel here!
         #QE not represor

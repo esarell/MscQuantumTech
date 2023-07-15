@@ -26,9 +26,21 @@ def data_load_and_process(dataset):
     #split dataset into 80% training / 20%test after randomly shuffling
     #need to randomly shuffle as first half of dataset is just noise and second is noisy sin waves
     
-    x_train, x_test, y_train, y_test = train_test_split(dataset[0], dataset[1], test_size=0.2, random_state=0, shuffle=True)    
-    
-    return (x_train, x_test, y_train, y_test)
+    #x_train, x_test, y_train, y_test = train_test_split(dataset[0], dataset[1], test_size=0.2, random_state=0, shuffle=True)    
+    train_ratio = 0.75
+    validation_ratio = 0.15
+    test_ratio = 0.10
+
+    # train is now 75% of the entire data set
+    x_train, x_test, y_train, y_test = train_test_split(dataset[0], dataset[1], test_size=1 - train_ratio)
+
+    # test is now 10% of the initial data set
+    # validation is now 15% of the initial data set
+    x_val, x_test, y_val, y_test = train_test_split(x_test, y_test, test_size=test_ratio/(test_ratio + validation_ratio)) 
+
+    #print(x_train, x_val, x_test)
+
+    return (x_train,x_val, x_test, y_train,y_val, y_test)
 
 def data_load_and_process1(dataset):
     '''
@@ -95,9 +107,9 @@ def Benchmarking(dataset, Unitaries, U_num_params, filename, circuit, steps, snr
             #get data
         #calls function in this file
 
-        X_train, X_test, Y_train, Y_test = data_load_and_process(dataset)
+        X_train, X_val, X_test, Y_train, Y_val, Y_test = data_load_and_process(dataset)
         
-        currentData = (X_train, X_test, Y_train, Y_test)
+        currentData = (X_train, X_val, X_test, Y_train, Y_val, Y_test)
         #look at difference between the two functions
         currentfile = "Data\data"+str(datetime.datetime.now().date()) + '_' + str(datetime.datetime.now().time()).replace(':', '.') +".pkl"
         print("Saving current parameters:",currentfile)
@@ -111,7 +123,7 @@ def Benchmarking(dataset, Unitaries, U_num_params, filename, circuit, steps, snr
         #calls the training function, work out where are the hyper parameters
         #Save the Paramaters
         #if its just parameters dont even really need to pickel
-        loss_history, trained_params = Training.circuit_training(X_train, Y_train, U, U_params, steps)
+        loss_history, trained_params = Training.circuit_training(X_train,X_val, Y_train,Y_val, U, U_params, steps)
         print("trained parameters",trained_params)
         #pltos the graph that is outputted QCNN loss.png
         plt.plot(loss_history, label=U)
@@ -120,12 +132,13 @@ def Benchmarking(dataset, Unitaries, U_num_params, filename, circuit, steps, snr
         plt.title('Loss History across '+ str(steps) + 'epochs.')
         plt.savefig('QCNN Loss')
 
-            #makes predictions of test set with trained parameters
-        predictions = [QCNN_circuit.QCNN(x, trained_params, U, U_params) for x in X_test]
+        #makes predictions of test set with trained parameters
+        #Now training Off Validation data sets 
+        predictions = [QCNN_circuit.QCNN(x, trained_params, U, U_params) for x in X_val]
             
         #calculate accuray
         #QE add in more tests like percisions ect
-        accuracy = accuracy_test(predictions, Y_test, binary)
+        accuracy = accuracy_test(predictions, Y_val, binary)
         print("Accuracy for " + U + " Amplitude :" + str(accuracy))
 
         #Writes file

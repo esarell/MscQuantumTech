@@ -13,6 +13,11 @@ cost_fn: 'cross_entropy'
 Note: when using 'mse' as cost_fn binary="True" is recommended, when using 'cross_entropy' as cost_fn must be binary="False".
 """
 #Declaring constants
+EPOCHS = 51
+#This is quite high
+LEARNING_RATE = 0.01
+BATCH_SIZE = 25
+
 
 if __name__ == "__main__":
     #Unitaries = ['U_13', 'U_14', 'U_15', 'U_SO4']
@@ -91,6 +96,7 @@ if __name__ == "__main__":
     print('counter1:',counter1)
     dataset=[filedata_new,labels]
 
+    #snr? Frequences
     freqs=[0.1]
     print('data read')
     for p in freqs:
@@ -98,7 +104,7 @@ if __name__ == "__main__":
         #dataset = Quantum_Data.sin_gen(p, 10000)
         print("HERE")
         #Step hyper parameters set up here
-        Benchmarking.Benchmarking(dataset, Unitaries, U_num_params, filename, circuit='QCNN', steps = 50, snr=p, binary=binary)
+        Benchmarking.Benchmarking(dataset, Unitaries, U_num_params, filename, circuit='QCNN', steps = EPOCHS, snr=p, binary=binary)
 
 
         #train pnoise network with gnoise
