@@ -24,17 +24,21 @@ allow you to run previsously trained models and test them
 -----------------------------------------------------------------------------------------------------------------------------------------
 
 The data is stored in the file:
-
+qdata_1009.txt
+This was generated using either the Quantum_Data.py or the sin_generator.py file
 
 -----------------------------------------------------------------------------------------------------------------------------------------
 Hyperparameters are stored:
 Training.py
 
+These where the inital
 learning_rate = 0.01
 batch_size = 25
-epochs = 10
+epochs = 500
 
 Epochs currently determined by "steps" in QCNN_run.py
+
+Testing of hyper params
 -----------------------------------------------------------------------------------------------------------------------------------------
 How to run.
 
@@ -49,3 +53,11 @@ Results: Holds the cost function/loss output
 Data: Holds the specific split up of test and training set data so you can test without testing on seen data
 
 Models are pickeld versions of the paramaters at that point, file naming convention works by using model + step number + C + Cost + .pkl
+
+The data that was randomly split is also saved in the Data folder with a date corresponding to each bit of data. This is also pickeld
+
+----------------------------------------------------
+To test a model run QCNN_test.py file.
+This will then promt you to laoad in a model file and its subsequent data.
+
+This will then give you an accuracy for that against the models test set, which is unseen.
