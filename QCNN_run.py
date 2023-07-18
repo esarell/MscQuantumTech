@@ -13,10 +13,10 @@ cost_fn: 'cross_entropy'
 Note: when using 'mse' as cost_fn binary="True" is recommended, when using 'cross_entropy' as cost_fn must be binary="False".
 """
 #Declaring constants
-EPOCHS = 51
+EPOCHS = 300
 #This is quite high
-LEARNING_RATE = 0.01
-BATCH_SIZE = 25
+#LEARNING_RATE = 0.01
+#BATCH_SIZE = 25
 
 
 if __name__ == "__main__":
@@ -36,21 +36,37 @@ if __name__ == "__main__":
     #
     filename="Result"+str(datetime.datetime.now().date()) + '_' + str(datetime.datetime.now().time()).replace(':', '.')
 
-    fname =r'qdata_1009.txt'
+    #fname =r'qdata_1009.txt'
+    #fname =r'qdata_10000_snr_50.75.txt'
+    fname =r'qdata_10000_0.1.txt'
     with open(fname) as f:
         lines = f.readlines()
         filedata=''.join(lines)
         #data handeling
         allstates=filedata.split(')], ')
-        #print(len(allstates))
-        
+        print(len(allstates))
+        #print(allstates[2])
         #data handeling of the labels which are at the end of the file
-        labels=allstates[1]
-        labels=labels[:-1]
-        labels=labels.strip(']')
-        labels=labels.strip('[')
-        labels=labels.split(',')
-        labels=[eval(i) for i in labels]
+        try:
+            labels=allstates[1]
+            labels=labels[:-1]
+            labels=labels.strip(']')
+            labels=labels.strip('[')
+            labels=labels.split(',')
+            #print("labels",labels)
+            labels=[eval(i) for i in labels]
+        except:
+            print("Data labels type 2")
+            labels=allstates[2]
+            #labels=labels[:-1]
+            labels=labels.strip(']')
+            labels=labels.strip('[')
+            #labels=labels.strip(' ')
+            labels=labels.split(',')
+            
+            
+        #print(labels)
+            
         #are these labels literally like true/false
         #print(labels)
         #print(filedata[len(labels):])
@@ -74,7 +90,7 @@ if __name__ == "__main__":
             data=data.split(',')
             #print("data length",len(data))
 
-            if counter1 == 9999:  
+            if counter1 == len(filedata)-1:  
                 data=';'.join(data)
                 data=data.split(')')
                 data=data[0]

@@ -37,6 +37,9 @@ batch_size = 25
 epochs = 500
 
 Epochs currently determined by "steps" in QCNN_run.py
+Steps is not exactly the same as epochs, an epoch is when it runs through the whole data set the step is each step is just a different batch
+
+For the current data file we are doing that means that 300 steps is equivalent to 10 epochs when the batch size is 25
 
 Testing of hyper params
 -----------------------------------------------------------------------------------------------------------------------------------------
