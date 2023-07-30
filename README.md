@@ -21,6 +21,7 @@ Training.py
 QCNN_test.py:
 allow you to run previsously trained models and test them
 
+Also the CNN.py file to benchmark the system
 -----------------------------------------------------------------------------------------------------------------------------------------
 
 The data is stored in the file:
@@ -41,6 +42,7 @@ Steps is not exactly the same as epochs, an epoch is when it runs through the wh
 
 For the current data file we are doing that means that 300 steps is equivalent to 10 epochs when the batch size is 25
 
+
 Testing of hyper params
 -----------------------------------------------------------------------------------------------------------------------------------------
 How to run.
@@ -59,6 +61,7 @@ Models are pickeld versions of the paramaters at that point, file naming convent
 
 The data that was randomly split is also saved in the Data folder with a date corresponding to each bit of data. This is also pickeld
 
+Run the CNN File:
 ----------------------------------------------------
 To test a model run QCNN_test.py file.
 This will then promt you to laoad in a model file and its subsequent data.

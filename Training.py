@@ -46,9 +46,10 @@ def cost(params, X, Y, U, U_params):
 
 #QE LOOK AT HYPER PARAMETERS
 # Circuit training parameters
+#learning_rate = 0.005
+#batch_size = 5
 learning_rate = 0.005
 batch_size = 5
-
 def circuit_training(X_train,X_val, Y_train,Y_val, U, U_params, steps):
     '''
     trains qcnn on training data

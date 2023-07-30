@@ -112,7 +112,7 @@ def Benchmarking(dataset, Unitaries, U_num_params, filename, circuit, steps, snr
         currentData = (X_train, X_val, X_test, Y_train, Y_val, Y_test)
         #look at difference between the two functions
         currentfile = "Data\data"+str(datetime.datetime.now().date()) + '_' + str(datetime.datetime.now().time()).replace(':', '.') +".pkl"
-        print("Saving current parameters:",currentfile)
+        print("Saving current Data:",currentfile)
         pickle.dump(currentData, open(currentfile,'wb'))
         #Xn_train, Xn_test, Yn_train, Yn_test = data_load_and_process1(sin_generator.sin_gen3(snr,256))
 
