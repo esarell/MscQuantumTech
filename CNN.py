@@ -7,6 +7,7 @@ import sin_generator
 from sklearn.model_selection import train_test_split
 import pickle
 import datetime
+import os
 
 def get_n_params(model):
     np=0
@@ -41,7 +42,11 @@ def Benchmarking_CNN(dataset,filename, input_size, optimizer,smallest):
     currentData = (X_train, X_val, X_test, Y_train, Y_val, Y_test)
     currentfile = "CNN_Data\data"+str(datetime.datetime.now().date()) + '_' + str(datetime.datetime.now().time()).replace(':', '.') +".pkl"
     print("Saving current data:",currentfile)
-
+    path = "CNN_Models/"+str(datetime.datetime.now().date())
+    try:
+        os.mkdir(path)
+    except:
+        print("File "+path+"already created")
     pickle.dump(currentData, open(currentfile,'wb'))
     CNN = nn.Sequential(
         nn.Conv1d(in_channels=1, out_channels=n_feature, kernel_size=2, padding=1),
@@ -76,7 +81,7 @@ def Benchmarking_CNN(dataset,filename, input_size, optimizer,smallest):
         if it % 10 == 0:
             print("[iteration]: %i, [LOSS]: %.10f" % (it, loss.item()))
             if loss.item() < smallest:
-                currentfile = "CNN_Models\model"+str(it)+"C"+str(loss.item())+".pkl"
+                currentfile = path+"\model"+str(it)+"C"+str(loss.item())+".pkl"
                 #currentfile = "CNN_Models\model"+str()+"C"+str(loss.item())+".pkl"
                 print("Saving current parameters:",currentfile)
                 pickle.dump(CNN, open(currentfile,'wb'))
@@ -113,12 +118,8 @@ def Benchmarking_CNN(dataset,filename, input_size, optimizer,smallest):
     #counter=counter+1
 steps = 200
 if __name__ == "__main__":
-    filename="CNN_Result"+str(datetime.datetime.now().date()) + '_' + str(datetime.datetime.now().time()).replace(':', '.')
-    try:
-        path = "CNN_Models/"+str(datetime.datetime.now().date())
-        os.mkdir(path)
-    except:
-        print("File "+path+"already created")
+    filename="CNN_Results/CNN_Result"+str(datetime.datetime.now().date()) + '_' + str(datetime.datetime.now().time()).replace(':', '.')
+
     smallest = 20
     for i in range(0,10):
         print('running',i)
