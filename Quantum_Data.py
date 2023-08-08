@@ -11,8 +11,9 @@ import itertools as it
 import numpy as np
 import matplotlib.pyplot as plt
 import matplotlib
-
+import sin_data_generator
 import Benchmarking
+from tqdm import tqdm
 
 #matplotlib.rcParams['mathtext.fontset'] = 'stix'
 #matplotlib.rcParams['font.family'] = 'STIXGeneral'
@@ -86,7 +87,7 @@ def depolarisation_channel(circ, qreg, p, wrap=False, inverse=False, label='depo
     max_param = num_terms / (num_terms - 1)
 
     if p < 0 or p > max_param:
-        raise NoiseError("Depolarizing parameter must be in between 0 "
+        raise NameError("Depolarizing parameter must be in between 0 "
                          "and {}.".format(max_param))
 
     prob_iden = 1 - p / max_param
@@ -120,7 +121,7 @@ def depolarisation_channel(circ, qreg, p, wrap=False, inverse=False, label='depo
 
     return circ
 
-data=sin_gen(5, 10000)
+#data=sin_gen(5, 10000)
 qdata=[]
 
 
@@ -129,16 +130,19 @@ def quantum_data(p):
     #p = 0.8
     n = 8
     print('generating data')
-    data=sin_gen(5, 10000)
+    data=sin_data_generator.sin_gen(5, 10000)
     print('generated data')
 
     outputs=[] #add example to array
     labels=[] #add corresponding label to array
-    f = open('Quantum_data/qdata_10000_'+str(p)+'.txt', 'a')
+    f = open('Quantum_data/Qdata1'+str(p)+'.txt', 'a')
+    
+    pbar = tqdm(total=10000)
+    #print(range(0,len(data[0])))
     for i in range(0,len(data[0])):
         #print(i)
-        if i%100 == 0:
-            print(i)
+        #if i%100 == 0:
+            #print(i)
         wave=data[0][i]
         wave = wave/np.sqrt(np.sum(np.abs(wave)**2))
         #print(wave)
@@ -153,14 +157,16 @@ def quantum_data(p):
         out_state = np.array(result.get_statevector(circ, decimals=5))
         labels.append(label)
         outputs.append(out_state)
-        
+        pbar.update(1)
     f_out=[outputs,labels]
     #np.savetxt('outfile.txt', array.view(float))
     f.write(str(f_out))
     f.close()
 
     return f_out
-
+if __name__ == "__main__":
+    quantum_data(0.8)
+#quantum_data(0.4)
         #fig = plt.figure(figsize=figsize)
         #ax = fig.add_subplot(111)
         #ax.plot(wave.real, color='black', label='Real')

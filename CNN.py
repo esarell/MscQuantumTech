@@ -3,7 +3,8 @@ import numpy as np
 import torch
 import torch.nn as nn
 from matplotlib import pyplot as plt 
-import sin_generator
+#import sin_generator
+import sin_data_generator
 from sklearn.model_selection import train_test_split
 import pickle
 import datetime
@@ -119,13 +120,14 @@ def Benchmarking_CNN(dataset,filename, input_size, optimizer,smallest):
 steps = 200
 if __name__ == "__main__":
     filename="CNN_Results/CNN_Result"+str(datetime.datetime.now().date()) + '_' + str(datetime.datetime.now().time()).replace(':', '.')
-
+    dataset = sin_data_generator.sin_gen(5,10000)
     smallest = 20
-    for i in range(0,10):
-        print('running',i)
+    #for i in range(0,10):
+    print('running')
         #dataset = sin_generator.sin_gen3(i,10000)
-        dataset =sin_generator.sin_genn(5,10000)
-        Benchmarking_CNN(dataset,filename ,input_size = 256 ,optimizer='nesterov',smallest=smallest)
+        #dataset =sin_generator.sin_genn(5,10000)
+        
+    Benchmarking_CNN(dataset,filename ,input_size = 256 ,optimizer='nesterov',smallest=smallest)
     #Benchmarking_CNN(dataset=dataset, classes=classes, Encodings=Encodings, Encodings_size=Encodings_size,
     #                 binary=binary, optimizer='nesterov')
 

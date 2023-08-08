@@ -1,5 +1,6 @@
 import Benchmarking
-import sin_generator
+#import sin_generator
+import sin_data_generator
 import Quantum_Data
 import numpy as np
 import datetime
@@ -17,10 +18,11 @@ EPOCHS = 300
 #This is quite high
 #LEARNING_RATE = 0.01
 #BATCH_SIZE = 25
-
+print("HERE")
 
 if __name__ == "__main__":
     #Unitaries = ['U_13', 'U_14', 'U_15', 'U_SO4']
+    print("HEre")
     Unitaries=['U_6']#, 'U_9', 'U_13', 'U_14', 'U_15', 'U_SO4', 'U_SU4', 'U_SU4_no_pooling', 'U_SU4_1D', 'U_9_1D']
     #U_num_params = [6, 6, 4, 6]
 
@@ -38,7 +40,8 @@ if __name__ == "__main__":
 
     #fname =r'qdata_1009.txt'
     #fname =r'qdata_10000_snr_50.75.txt'
-    fname =r'qdata_10000_0.1.txt'
+    #fname =r'qdata_10000_0.1.txt'
+    fname =r'Qdata10.2.txt'
     with open(fname) as f:
         lines = f.readlines()
         filedata=''.join(lines)
@@ -47,22 +50,22 @@ if __name__ == "__main__":
         print(len(allstates))
         #print(allstates[2])
         #data handeling of the labels which are at the end of the file
-        try:
-            labels=allstates[1]
-            labels=labels[:-1]
-            labels=labels.strip(']')
-            labels=labels.strip('[')
-            labels=labels.split(',')
-            #print("labels",labels)
-            labels=[eval(i) for i in labels]
-        except:
+        #try:
+        labels=allstates[1]
+        labels=labels[:-1]
+        labels=labels.strip(']')
+        labels=labels.strip('[')
+        labels=labels.split(',')
+        #print("labels",labels)
+        labels=[eval(i) for i in labels]
+        '''except:
             print("Data labels type 2")
             labels=allstates[2]
             #labels=labels[:-1]
             labels=labels.strip(']')
             labels=labels.strip('[')
             #labels=labels.strip(' ')
-            labels=labels.split(',')
+            labels=labels.split(',')'''
             
             
         #print(labels)
