@@ -46,11 +46,12 @@ def cost(params, X, Y, U, U_params):
 
 #QE LOOK AT HYPER PARAMETERS
 # Circuit training parameters
-#learning_rate = 0.005
-#batch_size = 5
-learning_rate = 0.005
-batch_size = 5
-def circuit_training(X_train,X_val, Y_train,Y_val, U, U_params, steps):
+#learning_rate = 0.01
+batch_size = 32
+learning_rate = 0.05
+#batch_size = 100
+
+def circuit_training(X_train,X_val, Y_train,Y_val, U, U_params, steps,testName):
     '''
     trains qcnn on training data
     ARGS: X_train- training data
@@ -60,7 +61,7 @@ def circuit_training(X_train,X_val, Y_train,Y_val, U, U_params, steps):
     RETURNS: loss history and learned parameters
     '''
     #Different variants
-    
+    smallest = 100
     if U == 'U_SU4_no_pooling' or U == 'U_SU4_1D' or U == 'U_9_1D':
         total_params = U_params * 3
     else:
@@ -72,13 +73,13 @@ def circuit_training(X_train,X_val, Y_train,Y_val, U, U_params, steps):
     loss_history = []
     #print(total_params)
     try:
-        path = "Models/"+str(datetime.datetime.now().date())
+        path = "Models/"+str(datetime.datetime.now().date())+str(testName)
         os.mkdir(path)
     except:
         print("File "+path+"already created")
     print("len(X_train)",len(X_train))
     pbar = tqdm(total=steps)
-
+    epoch = len(X_train)/batch_size
     for it in range(steps):
         '''
         calculate loss for each epoch- traing set split into
@@ -95,11 +96,14 @@ def circuit_training(X_train,X_val, Y_train,Y_val, U, U_params, steps):
                                                      params)
         loss_history.append(cost_new)
         #QE Okay here we need a bar
-        if it % batch_size == 0:
+        #
+        if it % 20 == 0:
             print("iteration: ", it, " cost: ", cost_new)
-            currentfile = path+"\model"+str(it)+"C"+str(cost_new)+".pkl"
-            print("Saving current parameters:",currentfile)
-            pickle.dump(params, open(currentfile,'wb'))
+            if cost_new<smallest:
+                currentfile = path+"\model"+str(testName)+str(it)+"C"+str(cost_new)+".pkl"
+                print("Saving current parameters:",currentfile)
+                pickle.dump(params, open(currentfile,'wb'))
+                smallest = cost_new
             #predictions = [QCNN_circuit.QCNN(x,params, U, U_params) for x in X_val]
             #accuracy = Benchmarking.accuracy_test(predictions, Y_val, True)
             #print("Accuracy for " + U + " Amplitude :" + str(accuracy))

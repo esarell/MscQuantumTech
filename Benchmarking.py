@@ -11,6 +11,7 @@ import time
 import sin_generator
 import pickle
 import datetime
+import os
 
 # This is an implementation of data_embedding function used for 8 qubits Quantum Convolutional Neural Network (QCNN)
 # and Hierarchical Quantum Classifier circuit.
@@ -89,17 +90,22 @@ def accuracy_test(predictions, labels, binary = True):
 
 
 
-def Benchmarking(dataset, Unitaries, U_num_params, filename, circuit, steps, snr, binary=True):
+def Benchmarking(dataset, Unitaries, U_num_params, filename,testName ,circuit, steps, snr, binary=True):
     '''
     This function benchmarks the QCNN
     '''
     #Make this actually epochs
     print('Unitaries',Unitaries)
     I = len(Unitaries) # Number of Quantum circuits try
-    
+    try:
+        path = "Result/"+str(datetime.datetime.now().date())+str(testName)
+        os.mkdir(path)
+    except:
+         print("File "+path+"already created")
     for i in range(I):
         start = time.time()
-        f = open('Result/'+filename+'.txt', 'a')
+
+        f = open(path+"/"+filename+'.txt', 'a')
         U = Unitaries[i]
         U_params = U_num_params[i]
         Embedding='Amplitude'
@@ -111,7 +117,12 @@ def Benchmarking(dataset, Unitaries, U_num_params, filename, circuit, steps, snr
         
         currentData = (X_train, X_val, X_test, Y_train, Y_val, Y_test)
         #look at difference between the two functions
-        currentfile = "Data\data"+str(datetime.datetime.now().date()) + '_' + str(datetime.datetime.now().time()).replace(':', '.') +".pkl"
+        try:
+            datapath = "Data/"+str(datetime.datetime.now().date())+str(testName)
+            os.mkdir(datapath)
+        except:
+            print("File "+datapath+"already created")
+        currentfile = str(datapath) +"/data"+str(testName)+".pkl"
         print("Saving current Data:",currentfile)
         pickle.dump(currentData, open(currentfile,'wb'))
         #Xn_train, Xn_test, Yn_train, Yn_test = data_load_and_process1(sin_generator.sin_gen3(snr,256))
@@ -123,14 +134,14 @@ def Benchmarking(dataset, Unitaries, U_num_params, filename, circuit, steps, snr
         #calls the training function, work out where are the hyper parameters
         #Save the Paramaters
         #if its just parameters dont even really need to pickel
-        loss_history, trained_params = Training.circuit_training(X_train,X_val, Y_train,Y_val, U, U_params, steps)
+        loss_history, trained_params = Training.circuit_training(X_train,X_val, Y_train,Y_val, U, U_params, steps,testName)
         print("trained parameters",trained_params)
         #pltos the graph that is outputted QCNN loss.png
         plt.plot(loss_history, label=U)
         plt.xlabel('Epochs')
         plt.ylabel('Training Loss')
         plt.title('Loss History across '+ str(steps) + 'epochs.')
-        plt.savefig('QCNN Loss')
+        plt.savefig(path+'\QCNN_Loss'+str(snr)+'.png')
 
         #makes predictions of test set with trained parameters
         #Now training Off Validation data sets 
@@ -178,9 +189,9 @@ def Benchmarking_new(dataset, Unitaries, U_num_params, filename, circuit, steps,
         loss_history, trained_params = Training.circuit_training(X_train, Y_train, U, U_params, steps)
 
         plt.plot(loss_history, label=U)
-        plt.xlabel('Epochs')
+        plt.xlabel('Steps')
         plt.ylabel('Training Loss')
-        plt.title('Loss History across '+ str(steps) + 'epochs.')
+        plt.title('Loss History across '+ str(steps) + 'Steps.')
         plt.savefig('QCNN Loss')
 
             #makes predictions of test set with trained parameters

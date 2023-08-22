@@ -4,6 +4,7 @@ import sin_data_generator
 import Quantum_Data
 import numpy as np
 import datetime
+import os
 """
 Here are possible combinations of benchmarking user could try.
 Unitaries: ['U_TTN', 'U_5', 'U_6', 'U_9', 'U_13', 'U_14', 'U_15', 'U_SO4', 'U_SU4', 'U_SU4_no_pooling', 'U_SU4_1D', 'U_9_1D']
@@ -14,7 +15,7 @@ cost_fn: 'cross_entropy'
 Note: when using 'mse' as cost_fn binary="True" is recommended, when using 'cross_entropy' as cost_fn must be binary="False".
 """
 #Declaring constants
-EPOCHS = 300
+EPOCHS = 500
 #This is quite high
 #LEARNING_RATE = 0.01
 #BATCH_SIZE = 25
@@ -25,7 +26,7 @@ if __name__ == "__main__":
     print("HEre")
     Unitaries=['U_6']#, 'U_9', 'U_13', 'U_14', 'U_15', 'U_SO4', 'U_SU4', 'U_SU4_no_pooling', 'U_SU4_1D', 'U_9_1D']
     #U_num_params = [6, 6, 4, 6]
-
+    #Unitaries=['U_14']
     U_num_params = [10]#, 10, 2, 6, 6, 4, 6, 15, 15, 15, 2]
     #dataset = sin_generator.sin_gen(10,10000)
 
@@ -41,7 +42,9 @@ if __name__ == "__main__":
     #fname =r'qdata_1009.txt'
     #fname =r'qdata_10000_snr_50.75.txt'
     #fname =r'qdata_10000_0.1.txt'
-    fname =r'Qdata10.2.txt'
+    #fname =r'Quantum_data\Qdata30.32021.txt'
+    fname =r'Quantum_Data\NoPauil\Qdata20.31011.txt'
+    testName ='F30.31011'
     with open(fname) as f:
         lines = f.readlines()
         filedata=''.join(lines)
@@ -116,14 +119,17 @@ if __name__ == "__main__":
     dataset=[filedata_new,labels]
 
     #snr? Frequences
-    freqs=[0.1]
+    #was 0.1
+    freqs=[0.3]
     print('data read')
+    print(freqs)
+    print("test",testName)
     for p in freqs:
         #dataset = Quantum_Data.quantum_data(p)
         #dataset = Quantum_Data.sin_gen(p, 10000)
         print("HERE")
         #Step hyper parameters set up here
-        Benchmarking.Benchmarking(dataset, Unitaries, U_num_params, filename, circuit='QCNN', steps = EPOCHS, snr=p, binary=binary)
+        Benchmarking.Benchmarking(dataset, Unitaries, U_num_params, filename,testName ,circuit='QCNN', steps = EPOCHS, snr=p, binary=binary)
 
 
         #train pnoise network with gnoise

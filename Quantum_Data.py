@@ -125,17 +125,19 @@ def depolarisation_channel(circ, qreg, p, wrap=False, inverse=False, label='depo
 qdata=[]
 
 
-def quantum_data(p):
+def quantum_data(p,freq):
 
     #p = 0.8
+    #was 0.5 by me
+    pauilProb=0
     n = 8
     print('generating data')
-    data=sin_data_generator.sin_gen(5, 10000)
+    data=sin_data_generator.sin_gen(p,freq,10000)
     print('generated data')
 
     outputs=[] #add example to array
     labels=[] #add corresponding label to array
-    f = open('Quantum_data/Qdata1'+str(p)+'.txt', 'a')
+    f = open('Quantum_data/Qdata3'+str(p)+str(freq[0])+str(freq[1])+'.txt', 'a')
     
     pbar = tqdm(total=10000)
     #print(range(0,len(data[0])))
@@ -151,7 +153,7 @@ def quantum_data(p):
         circ = QuantumCircuit(q_reg)
         circ.initialize(wave, q_reg)
         backend = Aer.get_backend('statevector_simulator')
-        circ = depolarisation_channel(circ, q_reg, p)
+        circ = depolarisation_channel(circ, q_reg, pauilProb)
         job = execute(circ, backend)
         result = job.result()
         out_state = np.array(result.get_statevector(circ, decimals=5))
@@ -165,7 +167,49 @@ def quantum_data(p):
 
     return f_out
 if __name__ == "__main__":
-    quantum_data(0.8)
+    #Frequency: 40,120
+    #quantum_data(0.1)
+    #quantum_data(0.3)
+    #quantum_data(0.4)
+    #quantum_data(0.6)
+    #quantum_data(0.7)
+    #quantum_data(0.8)
+    #quantum_data(0.9)
+    #quantum_data(0.5,[10,40])
+    #quantum_data(0.1,[10,40])
+    #quantum_data(0.8,[10,40])
+    #quantum_data(0.5,[40,41])
+    #quantum_data(0.5,[20,21])
+    #quantum_data(0.5,[60,61])
+    #quantum_data(0.31,[10,20])
+    #quantum_data(0.5,[10,20])
+    #quantum_data(0.1,[20,21])
+    #quantum_data(5,[40,120])
+    #remove pauil noise for these ones
+    #quantum_data(0.3,[10,11])
+    #quantum_data(0.5,[10,11])
+    #quantum_data(0.3,[10,20])
+    #quantum_data(0.3,[1,2])
+    
+    #Not done
+    #quantum_data(5,[40,120])
+    #quantum_data(10,[40,120])
+    #quantum_data(10)
+    #quantum_data(0.5,[20,21])
+    #quantum_data(0.3,[20,21])
+    #quantum_data(0.5,[100,101])
+    #quantum_data(0.5,[10,40])
+    #22/08
+    #quantum_data(0.8,[20,21])
+    #quantum_data(0.1,[20,21])
+    #quantum_data(0.3,[40,120])
+    quantum_data(0.3,[20,80])
+    quantum_data(0.3,[120,121])
+    quantum_data(1,[20,21])
+    quantum_data(5,[20,21])
+    #New frequency
+
+
 #quantum_data(0.4)
         #fig = plt.figure(figsize=figsize)
         #ax = fig.add_subplot(111)

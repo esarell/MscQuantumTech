@@ -29,9 +29,10 @@ def accuracy_test(predictions, labels):
     acc = acc / len(labels)
     return acc
 #counter =0
-steps = 100
+steps = 300
+#for binary classification
 n_feature = 2
-batch_size = 64
+batch_size = 20
 def Benchmarking_CNN(dataset,filename, input_size, optimizer,smallest):
     final_layer_size = int(input_size / 4)
     train_ratio = 0.75
@@ -73,7 +74,7 @@ def Benchmarking_CNN(dataset,filename, input_size, optimizer,smallest):
         if optimizer == 'adam':
             opt = torch.optim.Adam(CNN.parameters(), lr=0.01, betas=(0.9, 0.999))
         elif optimizer == 'nesterov':
-            opt = torch.optim.SGD(CNN.parameters(), lr=0.01, momentum=0.9, nesterov=True)
+            opt = torch.optim.SGD(CNN.parameters(), lr=0.1, momentum=0.9, nesterov=True)
 
         Y_pred_batch_torch = CNN(X_train_batch_torch)
 
@@ -117,10 +118,13 @@ def Benchmarking_CNN(dataset,filename, input_size, optimizer,smallest):
     plt.xlabel('Epochs')
     plt.savefig(filename+'CNN Loss History with qdata'+optimizer+' Optimiser.png')
     #counter=counter+1
-steps = 200
+#steps = 300
 if __name__ == "__main__":
+    p =0.5
+    freq=[20,21]
     filename="CNN_Results/CNN_Result"+str(datetime.datetime.now().date()) + '_' + str(datetime.datetime.now().time()).replace(':', '.')
-    dataset = sin_data_generator.sin_gen(5,10000)
+    #dataset = sin_data_generator.sin_gen(5,10000)
+    dataset=sin_data_generator.sin_gen(p,freq,10000)
     smallest = 20
     #for i in range(0,10):
     print('running')
