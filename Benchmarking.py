@@ -134,7 +134,18 @@ def Benchmarking(dataset, Unitaries, U_num_params, filename,testName ,circuit, s
         #calls the training function, work out where are the hyper parameters
         #Save the Paramaters
         #if its just parameters dont even really need to pickel
-        loss_history, trained_params = Training.circuit_training(X_train,X_val, Y_train,Y_val, U, U_params, steps,testName)
+        for i in range(2):
+            loss_history, trained_params = Training.circuit_training(X_train,X_val, Y_train,Y_val, U, U_params, steps,testName)
+            Valpredictions = [QCNN_circuit.QCNN(x, trained_params, U, U_params) for x in X_val]
+            Trainingpredictions = [QCNN_circuit.QCNN(x, trained_params, U, U_params) for x in X_train]
+            #calculate accuray
+            accuracy = accuracy_test(Trainingpredictions, Y_train, binary)
+            #for that epoch looks at the accuracy for the model and looks at the current accuracy for both seen (training)
+            print("Training Dataset Accuracy for " + U + " Amplitude :" + str(accuracy))
+            #and partially seen data (validation)
+            accuracy = accuracy_test(Valpredictions, Y_val, binary)
+            print("Validation Dataset Accuracy for " + U + " Amplitude :" + str(accuracy))
+
         print("trained parameters",trained_params)
         #pltos the graph that is outputted QCNN loss.png
         plt.plot(loss_history, label=U)
@@ -145,13 +156,9 @@ def Benchmarking(dataset, Unitaries, U_num_params, filename,testName ,circuit, s
 
         #makes predictions of test set with trained parameters
         #Now training Off Validation data sets 
-        predictions = [QCNN_circuit.QCNN(x, trained_params, U, U_params) for x in X_val]
-            
-        #calculate accuray
-        #QE add in more tests like percisions ect
-        accuracy = accuracy_test(predictions, Y_val, binary)
-        print("Accuracy for " + U + " Amplitude :" + str(accuracy))
-
+        testPredictions =[QCNN_circuit.QCNN(x, trained_params, U, U_params) for x in X_test]
+        testAccuracy = accuracy_test(Trainingpredictions, Y_test, binary)
+        print("test Accuracy for " + U + " Amplitude :" + str(accuracy))
         #Writes file
         f.write("Loss History for " + circuit + " circuits, " + U + " Amplitude with " +'cross entropy' + ' trained with: ' + lend + ' with snr: ' +str(snr))
         f.write("\n")
@@ -159,7 +166,10 @@ def Benchmarking(dataset, Unitaries, U_num_params, filename,testName ,circuit, s
         f.write("\n")
         f.write("Total time: "+ str(time.time() - start)+ "seconds.cc")
         f.write("\n")
-        f.write("Accuracy for " + U + " Amplitude :" + str(accuracy))
+        f.write("Training Accuracy for " + U + " Test Acuracy :" + str(testAccuracy))
+        f.write("Test Accuracy for " + U + " Test Acuracy :" + str(testAccuracy))
+        f.write("\n")
+        f.write("Accuracy for " + U + " Test Acuracy :" + str(testAccuracy))
         f.write("\n")
         f.write("\n")
     f.close()

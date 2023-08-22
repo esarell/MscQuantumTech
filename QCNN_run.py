@@ -15,7 +15,7 @@ cost_fn: 'cross_entropy'
 Note: when using 'mse' as cost_fn binary="True" is recommended, when using 'cross_entropy' as cost_fn must be binary="False".
 """
 #Declaring constants
-EPOCHS = 500
+EPOCHS = 161
 #This is quite high
 #LEARNING_RATE = 0.01
 #BATCH_SIZE = 25
@@ -44,7 +44,7 @@ if __name__ == "__main__":
     #fname =r'qdata_10000_0.1.txt'
     #fname =r'Quantum_data\Qdata30.32021.txt'
     fname =r'Quantum_Data\NoPauil\Qdata20.31011.txt'
-    testName ='F30.31011'
+    testName ='G30.31011'
     with open(fname) as f:
         lines = f.readlines()
         filedata=''.join(lines)

@@ -19,6 +19,7 @@ def testParameters(params,filename):
     currentdata = pickle.load(datafile)
     X_train, X_val, X_test, Y_train, Y_val, Y_test = currentdata
     #X_train, X_test, Y_train, Y_test = currentdata
+    print(Y_test)
     datafile.close()
     U = 'U_6'
     U_params = 10

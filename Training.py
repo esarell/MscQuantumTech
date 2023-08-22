@@ -47,8 +47,8 @@ def cost(params, X, Y, U, U_params):
 #QE LOOK AT HYPER PARAMETERS
 # Circuit training parameters
 #learning_rate = 0.01
-batch_size = 32
-learning_rate = 0.05
+batch_size = 5
+learning_rate = 0.1
 #batch_size = 100
 
 def circuit_training(X_train,X_val, Y_train,Y_val, U, U_params, steps,testName):
@@ -95,6 +95,8 @@ def circuit_training(X_train,X_val, Y_train,Y_val, U, U_params, steps,testName):
         params, cost_new = opt.step_and_cost(lambda v: cost(v, X_batch, Y_batch, U, U_params),
                                                      params)
         loss_history.append(cost_new)
+
+        #predictions_val = [np.sign(variational_classifier(var, f)) for f in feats_val]
         #QE Okay here we need a bar
         #
         if it % 20 == 0:

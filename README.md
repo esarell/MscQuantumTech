@@ -32,20 +32,16 @@ CNN.py
 
 CNN_test.py
 -----------------------------------------------------------------------------------------------------------------------------------------
-
-The data for QCNN is stored in the file:
-Qdata_10.8.txt currently this data has a varience of 0.5
-This was generated using either the Quantum_Data.py 
-
+Note sin_generator.py is no longer used 
 
 -----------------------------------------------------------------------------------------------------------------------------------------
 Hyperparameters are stored:
 Training.py
 
-These where the inital
+Currently best found hyper paramaters are
 learning_rate = 0.01
-batch_size = 25
-epochs = 500
+batch_size = 5
+epochs = 300
 
 Epochs currently determined by "steps" in QCNN_run.py
 Steps is not exactly the same as epochs, an epoch is when it runs through the whole data set the step is each step is just a different batch
@@ -58,7 +54,7 @@ Testing of hyper params
 How to run.
 
 Run the QCNN_run.py file
-Adjust the filename ect to make it work for you?
+Adjust the filename on line 46 of QCNN_run.py
 
 Set up make sure you have three folders set up,
 Models, Results and Data to collect the information
@@ -68,12 +64,22 @@ Results: Holds the cost function/loss output
 Data: Holds the specific split up of test and training set data so you can test without testing on seen data
 
 Models are pickeld versions of the paramaters at that point, file naming convention works by using model + step number + C + Cost + .pkl
-
+It will only
 The data that was randomly split is also saved in the Data folder with a date corresponding to each bit of data. This is also pickeld
-
+and saved in the Data folder
 Run the CNN File:
 ----------------------------------------------------
 To test a model run QCNN_test.py file.
 This will then promt you to laoad in a model file and its subsequent data.
+This data should be taken from the data folder and should be a .pkl file which corresponds to the designated model trained
 
 This will then give you an accuracy for that against the models test set, which is unseen.
+
+----------------------------------------------------
+Data generation for QCNN
+Use the Quantum_Data.py file
+in the main function called the data generation function by 
+quantum_data(variance,frequency)
+variance, determines how much gaussian noise is added to the file
+frequency should be a list with two values, this determines the range of frequencys of sin graphs created
+This will then be ssaved in the Quantum_Data Folder so make sure this is already created
