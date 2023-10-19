@@ -1,7 +1,10 @@
 # MscQuantumTech
 This project focuses on using Quantum Convolution Nural Networks (QCNN) in order to determine signal for nosie for Gravitational Waves
 
+This code was adapted from: https://github.com/takh04/QCNN
+
 Currently two students have looked into this uses pennylane as the main libary. This repostory is a continuation of there work.
+
 -----------------------------------------------------------------------------------------------------------------------------------------
 
 There are 6 main files used:
@@ -68,6 +71,7 @@ It will only
 The data that was randomly split is also saved in the Data folder with a date corresponding to each bit of data. This is also pickeld
 and saved in the Data folder
 Run the CNN File:
+
 ----------------------------------------------------
 To test a model run QCNN_test.py file.
 This will then promt you to laoad in a model file and its subsequent data.
@@ -78,12 +82,14 @@ This will then give you an accuracy for that against the models test set, which 
 ----------------------------------------------------
 Data generation for QCNN
 ----------------------------------------------------
+
 Use the Quantum_Data.py file
 in the main function called the data generation function by 
 quantum_data(variance,frequency)
 variance, determines how much gaussian noise is added to the file
 frequency should be a list with two values, this determines the range of frequencys of sin graphs created
 This will then be ssaved in the Quantum_Data Folder so make sure this is already created
+
 ----------------------------------------------------
 Data generation for CNN
 ----------------------------------------------------
