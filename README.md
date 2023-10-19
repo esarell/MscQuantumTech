@@ -83,3 +83,14 @@ quantum_data(variance,frequency)
 variance, determines how much gaussian noise is added to the file
 frequency should be a list with two values, this determines the range of frequencys of sin graphs created
 This will then be ssaved in the Quantum_Data Folder so make sure this is already created
+----------------------------------------------------
+Data generation for CNN
+Use sin_data_generator.py, this was previously sin_generator.py but this is no longer used.
+In the main function, simply call 
+sin_gen(snr,freq,length)
+snr: is the variance that is used on the gausian to decided how much noise to add
+frequence, a list of two values, [start frequency, last frequency]
+length: how many sin graphs you want to generate.
+
+This is used by the QCNN_Data.py file in order to help generate the QCNN data.
+It currently has a fixed length 10000 on line 135
