@@ -5,7 +5,7 @@ Currently two students have looked into this uses pennylane as the main libary. 
 -----------------------------------------------------------------------------------------------------------------------------------------
 
 There are 6 main files used:
-
+----------------------------------------------------
 Benchmarking.py
 
 QCNN_circuit.py
@@ -52,7 +52,7 @@ For the current data file we are doing that means that 300 steps is equivalent t
 Testing of hyper params
 -----------------------------------------------------------------------------------------------------------------------------------------
 How to run.
-
+----------------------------------------------------
 Run the QCNN_run.py file
 Adjust the filename on line 46 of QCNN_run.py
 
@@ -77,6 +77,7 @@ This will then give you an accuracy for that against the models test set, which 
 
 ----------------------------------------------------
 Data generation for QCNN
+----------------------------------------------------
 Use the Quantum_Data.py file
 in the main function called the data generation function by 
 quantum_data(variance,frequency)
@@ -85,6 +86,7 @@ frequency should be a list with two values, this determines the range of frequen
 This will then be ssaved in the Quantum_Data Folder so make sure this is already created
 ----------------------------------------------------
 Data generation for CNN
+----------------------------------------------------
 Use sin_data_generator.py, this was previously sin_generator.py but this is no longer used.
 In the main function, simply call 
 sin_gen(snr,freq,length)
