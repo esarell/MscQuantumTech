@@ -23,7 +23,7 @@ fontsize=28
 ticksize=22
 figsize=(14,10)
 
-
+#This sin generatrator is not used, left over
 def sin_gen(snr, length): #input snr as power ratio
     data_length = 256
     x = np.linspace(0,2*np.pi,data_length) #create "time series" over period 2pi with data_length points 
@@ -124,7 +124,7 @@ def depolarisation_channel(circ, qreg, p, wrap=False, inverse=False, label='depo
 #data=sin_gen(5, 10000)
 qdata=[]
 
-
+#main file needed
 def quantum_data(p,freq):
 
     #p = 0.8
@@ -137,6 +137,8 @@ def quantum_data(p,freq):
 
     outputs=[] #add example to array
     labels=[] #add corresponding label to array
+    #Creates a file with a unique name, based on variance and frequency
+    #opens it
     f = open('Quantum_data/Qdata3'+str(p)+str(freq[0])+str(freq[1])+'.txt', 'a')
     
     pbar = tqdm(total=10000)
@@ -162,11 +164,19 @@ def quantum_data(p,freq):
         pbar.update(1)
     f_out=[outputs,labels]
     #np.savetxt('outfile.txt', array.view(float))
+    #writes the data to the file
     f.write(str(f_out))
     f.close()
 
     return f_out
 if __name__ == "__main__":
+    #You can essentially ignore all of these, they just keep track of what data I had
+    #or had not generated
+    #to generate data run this file after you put your file
+    #quantum_data(variance,[start frequency,end frequency])
+    quantum_data(0.8,[10,11])
+    quantum_data(0.8,[100,101])
+    quantum_data(0.8,[120,121])
     #Frequency: 40,120
     #quantum_data(0.1)
     #quantum_data(0.3)
@@ -203,11 +213,14 @@ if __name__ == "__main__":
     #quantum_data(0.8,[20,21])
     #quantum_data(0.1,[20,21])
     #quantum_data(0.3,[40,120])
-    quantum_data(0.3,[20,80])
-    quantum_data(0.3,[120,121])
-    quantum_data(1,[20,21])
-    quantum_data(5,[20,21])
-    #New frequency
+    #quantum_data(0.3,[20,80])
+    #quantum_data(0.3,[120,121])
+    #quantum_data(1,[20,21])
+    #quantum_data(5,[20,21])
+    #New frequency    
+    #quantum_data(0.3,[100,101])
+    #quantum_data(0.8,[10,40])
+    #quantum_data(0.8,[40,120])
 
 
 #quantum_data(0.4)
